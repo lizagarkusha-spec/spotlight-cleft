@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Spotlight — Kindness & Cleft Sentences</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+:root{
+  --bg:#1a1230;--bg2:#251a44;--card:#2e2252;--card2:#3a2c66;--line:#4b3b80;
+  --gold:#ffc861;--gold2:#ffe3a3;--coral:#ff7a59;--mint:#52d6a6;--red:#ff5d7a;
+  --text:#f6efe4;--muted:#b9acd8;--shadow:0 10px 30px rgba(0,0,0,.35);
+}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:Manrope,system-ui,sans-serif;min-height:100%}
+body{background:
+  radial-gradient(ellipse 60% 45% at 50% -5%,rgba(255,200,97,.28),transparent 70%),
+  radial-gradient(ellipse 40% 30% at 90% 100%,rgba(255,122,89,.15),transparent 70%),var(--bg);
+  background-attachment:fixed;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+.wrap{max-width:760px;margin:0 auto;padding:16px 16px 90px}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;margin:0}
+/* top bar */
+.top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.top .grow{flex:1}
+.pill{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-weight:800;font-size:14px;display:inline-flex;gap:6px;align-items:center}
+.pill:active{transform:scale(.97)}
+/* hero */
+.hero{text-align:center;padding:18px 0 22px;position:relative}
+.beam{position:absolute;left:50%;top:-40px;width:340px;height:300px;transform:translateX(-50%);
+  background:conic-gradient(from 160deg at 50% 0,transparent 0deg,rgba(255,227,163,.18) 20deg,transparent 40deg);
+  pointer-events:none;animation:sway 6s ease-in-out infinite;transform-origin:50% 0}
+@keyframes sway{0%,100%{transform:translateX(-50%) rotate(-6deg)}50%{transform:translateX(-50%) rotate(6deg)}}
+.hero h1{font-size:clamp(40px,11vw,64px);letter-spacing:-.5px;color:var(--gold);text-shadow:0 0 30px rgba(255,200,97,.4)}
+.hero p{color:var(--muted);margin:6px 0 0;font-size:15px}
+.hero .tag{display:inline-block;margin-top:10px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);border:1px dashed var(--gold);border-radius:999px;padding:4px 12px}
+.total{margin:4px auto 18px;max-width:420px}
+.bar{height:10px;border-radius:99px;background:var(--card);overflow:hidden;border:1px solid var(--line)}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--coral),var(--gold));width:0;transition:width .5s}
+.small{font-size:13px;color:var(--muted)}
+/* acts grid */
+.act-h{font-family:Fraunces,serif;color:var(--gold2);font-size:20px;margin:22px 0 10px;display:flex;align-items:center;gap:10px}
+.act-h:after{content:"";flex:1;height:1px;background:var(--line)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.tile{background:linear-gradient(160deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:16px;text-align:left;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .15s}
+.tile:hover{transform:translateY(-3px)}
+.tile:active{transform:scale(.98)}
+.tile .num{position:absolute;right:12px;top:8px;font-family:Fraunces,serif;font-size:34px;color:rgba(255,255,255,.07)}
+.tile .ic{font-size:28px}
+.tile h3{font-size:18px;margin:6px 0 2px}
+.tile p{margin:0;color:var(--muted);font-size:13px;line-height:1.35}
+.tile .st{margin-top:10px;font-size:16px;letter-spacing:2px}
+.tile.done{border-color:var(--gold)}
+/* game screen */
+.card{background:linear-gradient(170deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow)}
+.qhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px}
+.qhead h2{font-size:22px;color:var(--gold)}
+.prog{height:6px;border-radius:9px;background:var(--bg2);overflow:hidden;margin-bottom:16px}
+.prog i{display:block;height:100%;background:var(--gold);transition:width .3s}
+.instr{color:var(--muted);font-size:14px;margin:0 0 10px}
+.q{font-size:20px;line-height:1.5;margin:6px 0 18px}
+.q .a{display:block;color:var(--muted);font-size:16px;margin-bottom:8px}
+.gap{display:inline-block;min-width:70px;border-bottom:3px solid var(--gold);color:var(--gold);text-align:center;font-weight:800}
+.opts{display:grid;gap:10px}
+.opt{background:var(--bg2);border:2px solid var(--line);border-radius:14px;padding:14px 16px;text-align:left;font-size:17px;font-weight:600;transition:.15s}
+.opt:hover{border-color:var(--gold)}
+.opt.ok{background:rgba(82,214,166,.18);border-color:var(--mint)}
+.opt.no{background:rgba(255,93,122,.18);border-color:var(--red);animation:shake .35s}
+.opt:disabled{cursor:default}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.fb{margin-top:14px;padding:12px 14px;border-radius:14px;font-size:15px;line-height:1.45;display:none}
+.fb.show{display:block;animation:pop .25s}
+.fb.ok{background:rgba(82,214,166,.14);border:1px solid var(--mint)}
+.fb.no{background:rgba(255,93,122,.12);border:1px solid var(--red)}
+@keyframes pop{from{transform:scale(.96);opacity:0}}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.btn{background:linear-gradient(135deg,var(--gold),var(--coral));color:#2a1636;font-weight:800;padding:13px 22px;border-radius:14px;font-size:16px;box-shadow:0 6px 18px rgba(255,140,90,.35)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:var(--bg2);color:var(--text);border:1px solid var(--line);box-shadow:none}
+.btn[disabled]{opacity:.45}
+.grow{flex:1}
+.say{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--bg2);border:1px solid var(--line);font-size:16px;vertical-align:middle}
+input.typ{width:100%;font:inherit;font-size:20px;padding:14px 16px;border-radius:14px;border:2px solid var(--line);background:var(--bg2);color:var(--text);outline:none}
+input.typ:focus{border-color:var(--gold)}
+.def{background:rgba(255,200,97,.08);border-left:4px solid var(--gold);padding:10px 12px;border-radius:8px;font-size:15px;margin-bottom:14px;color:var(--gold2)}
+/* flashcards */
+.flip{perspective:1000px;height:300px;margin:6px 0 4px}
+.flip .in{position:relative;width:100%;height:100%;transition:transform .55s;transform-style:preserve-3d}
+.flip.on .in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px;text-align:center;border:1px solid var(--line)}
+.front{background:radial-gradient(circle at 50% 0,rgba(255,200,97,.25),transparent 60%),var(--card2)}
+.front .w{font-family:Fraunces,serif;font-size:clamp(30px,8vw,44px);color:var(--gold)}
+.back{background:var(--card);transform:rotateY(180deg)}
+.back .t{font-size:24px;font-weight:800;color:var(--gold2)}
+.back .e{margin-top:14px;font-style:italic;color:var(--text);font-size:17px;line-height:1.45}
+/* match */
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mcol{display:grid;gap:10px;align-content:start}
+.m{background:var(--bg2);border:2px solid var(--line);border-radius:14px;padding:13px 10px;font-weight:700;font-size:15px;min-height:52px}
+.m.sel{border-color:var(--gold);background:rgba(255,200,97,.12)}
+.m.ok{border-color:var(--mint);background:rgba(82,214,166,.15);opacity:.55;pointer-events:none}
+.m.no{border-color:var(--red);animation:shake .35s}
+/* builder */
+.ans{min-height:64px;border:2px dashed var(--gold);border-radius:16px;padding:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:rgba(255,200,97,.05)}
+.pool{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{background:var(--card2);border:1px solid var(--line);border-bottom-width:3px;border-radius:12px;padding:10px 13px;font-weight:700;font-size:16px;animation:pop .2s}
+.ans .chip{background:var(--gold);color:#2a1636;border-color:#c9922e}
+.chip:active{transform:translateY(2px)}
+/* rules */
+.slide h3{font-size:24px;color:var(--gold);margin-bottom:10px}
+.slide p,.slide li{font-size:16px;line-height:1.55}
+.formula{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:12px 0;font-size:17px;font-weight:700}
+.formula b{color:var(--gold)}
+.hl{background:rgba(255,200,97,.22);color:var(--gold2);padding:1px 6px;border-radius:6px}
+.x{color:var(--red)}.v{color:var(--mint)}
+.dots{display:flex;gap:6px;justify-content:center;margin-top:14px}
+.dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--gold)}
+/* timer */
+.timer{font-family:Fraunces,serif;font-size:22px;color:var(--gold);min-width:52px;text-align:right}
+.tline{height:5px;border-radius:9px;background:var(--bg2);overflow:hidden;margin:-8px 0 14px}
+.tline i{display:block;height:100%;background:var(--coral);width:100%}
+/* speak */
+.prompt{font-family:Fraunces,serif;font-size:24px;line-height:1.3;margin:4px 0 14px}
+.starter{background:rgba(255,200,97,.12);border:1px solid var(--gold);border-radius:14px;padding:12px 14px;font-size:17px;margin-bottom:10px}
+.words{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.words span{background:var(--bg2);border:1px solid var(--line);padding:5px 10px;border-radius:999px;font-size:13px}
+.rate{display:flex;gap:8px;justify-content:center;margin-top:16px}
+.rate button{font-size:30px;filter:grayscale(1);opacity:.5;transition:.15s}
+.rate button.on{filter:none;opacity:1;transform:scale(1.1)}
+/* results */
+.res{text-align:center}
+.res .big{font-size:56px;letter-spacing:6px;margin:10px 0}
+.miss{text-align:left;margin-top:14px}
+.miss div{background:var(--bg2);border-radius:12px;padding:10px 12px;margin-bottom:8px;font-size:15px}
+/* drawer */
+.ov{position:fixed;inset:0;background:rgba(10,6,20,.6);z-index:20;animation:fade .2s}
+@keyframes fade{from{opacity:0}}
+.drawer{position:fixed;right:0;top:0;bottom:0;width:min(440px,100%);background:var(--bg2);z-index:21;overflow:auto;padding:18px 16px 40px;border-left:1px solid var(--line);animation:slide .25s}
+@keyframes slide{from{transform:translateX(100%)}}
+.drawer h2{color:var(--gold);font-size:24px}
+.search{width:100%;margin:12px 0;font:inherit;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text)}
+.wi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:8px}
+.wi b{color:var(--gold);font-size:17px}
+.wi .u{color:var(--gold2);font-size:14px}
+.wi .ex{color:var(--muted);font-size:14px;font-style:italic;margin-top:4px}
+.tabs{display:flex;gap:8px;margin-top:10px}
+.tabs button{flex:1;padding:9px;border-radius:10px;background:var(--card);border:1px solid var(--line);font-weight:700}
+.tabs button.on{background:var(--gold);color:#2a1636}
+.fab{position:fixed;right:16px;bottom:16px;z-index:10;background:linear-gradient(135deg,var(--gold),var(--coral));color:#2a1636;font-weight:800;border-radius:999px;padding:13px 18px;box-shadow:0 8px 22px rgba(0,0,0,.4)}
+canvas#cf{position:fixed;inset:0;pointer-events:none;z-index:50}
+.streak{font-weight:800;color:var(--coral)}
+@media (max-width:420px){.q{font-size:18px}.opt{font-size:16px;padding:13px}.card{padding:16px}}
+</style>
+</head>
+<body>
+<canvas id="cf"></canvas>
+<div class="wrap" id="app"></div>
+<button class="fab" id="fab">📖 Слова</button>
+<div class="ov" id="ov" hidden></div>
+<aside class="drawer" id="drawer" hidden></aside>
+
+<script>
+/* ================= DATA ================= */
+const WORDS=[
+{en:"mentor",ua:"наставник, наставниця",ex:"She acted as a mentor to me when I first started.",def:"an experienced person who advises and helps someone with less experience"},
+{en:"expertise",ua:"фахові знання, експертність",ex:"She was always happy to share her expertise.",def:"special skill or knowledge in a particular area"},
+{en:"comfort",ua:"розрада, втіха",ex:"She was a real comfort to me.",def:"a person or thing that makes you feel better when you are sad"},
+{en:"mourning",ua:"сумувати, оплакувати (втрату)",ex:"I was mourning the loss of my grandfather.",def:"feeling very sad because someone has died"},
+{en:"sleep rough",ua:"ночувати на вулиці",ex:"He was sleeping rough, so I bought him some food.",def:"to sleep outside because you have no home"},
+{en:"grab",ua:"швиденько взяти / купити",ex:"I decided to grab some food for him.",def:"to get or take something quickly (informal)"},
+{en:"babysit",ua:"посидіти з дітьми, побути нянею",ex:"I offered to babysit for them.",def:"to look after children while their parents are out"},
+{en:"let sb down",ua:"підвести когось",ex:"They'd been let down by the person they usually use.",def:"to disappoint someone by not doing what they expected"},
+{en:"welcoming",ua:"гостинний, привітний",ex:"They'd been incredibly welcoming while we stayed there.",def:"friendly to guests and making them feel at home"},
+{en:"rave review",ua:"захоплений відгук",ex:"We gave them a rave review.",def:"a very enthusiastic, positive opinion about something"},
+{en:"stranded",ua:"застряглий (без змоги поїхати далі)",ex:"I was stranded on the side of the road.",def:"unable to leave a place, e.g. because your car broke down"},
+{en:"pull over",ua:"з'їхати на узбіччя, зупинитися",ex:"He pulled over and offered me a lift.",def:"to drive to the side of the road and stop"},
+{en:"(feel) down",ua:"сумний, у поганому настрої",ex:"I was feeling a bit down because I'd lost my job.",def:"sad or unhappy (informal)"},
+{en:"the bill",ua:"рахунок (у кафе, ресторані)",ex:"We asked for the bill at the end of the evening.",def:"the paper showing how much you must pay in a restaurant"},
+{en:"desperate",ua:"у відчаї, у безвиході",ex:"I'd been unemployed for ages and was getting desperate.",def:"feeling there is very little hope, so ready to try anything"},
+{en:"apprenticeship",ua:"навчання на робочому місці (учнівство)",ex:"Then they offered me an apprenticeship.",def:"a job where you learn a skill by working for an employer"}
+];
+
+const CLEFT_TIPS=[
+["What + хто + дієслово + is/was + 🎯","What I need <b>is</b> a holiday.<br>What put me off <b>was</b> the pain."],
+["The (other) thing I love is + 🎯","The thing I love <b>is</b> how friendly people are."],
+["What's great about X is + 🎯","What's great about it <b>is</b> the way they teach."],
+["… is the fact that + повне речення","What's great <b>is the fact that</b> no one takes it too seriously."],
+["Минуле → was","What helped me <b>was</b> my mentor."]
+];
+
+/* MCQ: first option is correct */
+const GAP=[
+{q:"My train was cancelled and I was ____ in a tiny village for the night.",o:["stranded","welcoming","desperate","down"]},
+{q:"The family is still ____ the loss of their dad.",o:["mourning","babysitting","grabbing","pulling"]},
+{q:"An older colleague became my ____ and taught me everything about the job.",o:["mentor","expertise","comfort","bill"]},
+{q:"I don't have the technical ____ to fix this myself.",o:["expertise","mentor","apprenticeship","comfort"]},
+{q:"Your messages were a real ____ to me when I was in hospital.",o:["comfort","review","expertise","mentor"]},
+{q:"More people are sleeping ____ in the city centre this winter.",o:["rough","down","over","hard"]},
+{q:"I'm late — I'll just ____ a sandwich on the way.",o:["grab","babysit","pull","rave"]},
+{q:"My sister asked me to ____ her twins on Friday night.",o:["babysit","mourn","grab","mentor"]},
+{q:"I trusted him, but he really ____ .",o:["let me down","pulled me over","let down me","felt me down"]},
+{q:"Our neighbours were so ____ when we moved in — they brought us a cake!",o:["welcoming","stranded","desperate","rough"]},
+{q:"The new café got ____ reviews in the local paper.",o:["rave","rough","down","welcome"]},
+{q:"I saw an accident, so I ____ to see if anyone needed help.",o:["pulled over","let down","grabbed over","sat down"]},
+{q:"She's been feeling a bit ____ since her best friend moved away.",o:["down","rough","over","stranded"]},
+{q:"Excuse me, could we have ____ , please?",o:["the bill","the review","the mentor","the comfort"]},
+{q:"Every hotel was fully booked, and the tourists were getting ____ .",o:["desperate","welcoming","mourning","rave"]},
+{q:"He's doing an ____ at a garage and goes to college two days a week.",o:["apprenticeship","expertise","comfort","mentor"]}
+];
+
+const TYPE=[
+{q:"My boss acted as a ____ when I joined the company.",a:["mentor"]},
+{q:"We need someone with legal ____ .",a:["expertise"]},
+{q:"My dog was a great ____ to me after the break-up.",a:["comfort"]},
+{q:"The whole town was ____ the loss of the old doctor.",a:["mourning"]},
+{q:"In winter it's really dangerous to sleep ____ .",a:["rough"]},
+{q:"Let's ____ a coffee before the meeting.",a:["grab"]},
+{q:"Can you ____ on Saturday? We're going to the cinema.",a:["babysit"]},
+{q:"He promised to help, but he ____ me down again.",a:["let"]},
+{q:"The hotel staff were so ____ — they even remembered our names.",a:["welcoming"]},
+{q:"The show got ____ reviews from every critic.",a:["rave"]},
+{q:"Thousands of passengers were ____ at the airport after the strike.",a:["stranded"]},
+{q:"The police told the driver to ____ over.",a:["pull"]},
+{q:"You look a bit ____ . Is everything OK?",a:["down"]},
+{q:"Could we have the ____ , please?",a:["bill"]},
+{q:"After six months without work, he was ____ for any job.",a:["desperate"]},
+{q:"She left school at 16 and did an ____ with a local electrician.",a:["apprenticeship"]}
+];
+TYPE.forEach((t,i)=>t.d=WORDS[i].def);
+
+const MATCH=[
+[["act as a","mentor"],["share your","expertise"],["sleep","rough"],["grab","some food"],["pull","over"],["ask for","the bill"]],
+[["give them a rave","review"],["be let","down"],["be a real","comfort"],["mourn","the loss of sb"],["offer sb an","apprenticeship"],["be incredibly","welcoming"]]
+];
+
+const RULES=[
+`<h3>💡 Що таке cleft sentence?</h3>
+<p>Це речення, яке ми «розрізаємо» на дві частини, щоб навести <span class="hl">прожектор</span> на найважливіше.</p>
+<div class="formula">I love the music.<br>→ What I love <b>is</b> <span class="hl">the music</span>.</div>
+<p>Сенс той самий, але звучить емоційніше: ми підкреслюємо, <b>що саме</b> нам подобається (або дратує, допомагає, лякає).</p>`,
+`<h3>① What … is / was …</h3>
+<div class="formula"><b>What</b> + хто + дієслово + <b>is/was</b> + 🎯</div>
+<p>What I need <b>is</b> a long holiday.<br>What I've found <b>is</b> (that) it's a great way to relax.<br>What put me off <b>was</b> the pain.</p>
+<p>⏳ Якщо розповідаємо про минуле — <b>was</b>.</p>`,
+`<h3>② The thing … is …</h3>
+<div class="formula"><b>The thing</b> (that) I love <b>is</b> …<br><b>The other thing</b> I love <b>is</b> …<br><b>The best thing</b> about it <b>is</b> …</div>
+<p>The other thing I love <b>is</b> how friendly people are.</p>`,
+`<h3>③ What's great about … is …</h3>
+<div class="formula">What's great / annoying / funny <b>about</b> X <b>is</b> …</div>
+<p>What's great about it <b>is</b> the way they make it relevant to now.</p>
+<p>Якщо далі йде ціле речення (з підметом і дієсловом) — додай <b>the fact that</b>:</p>
+<div class="formula">What's great about this class <b>is the fact that</b> no one takes it too seriously.</div>`,
+`<h3>⚠️ Пастки</h3>
+<p><span class="x">✗</span> What I love <b>it</b> is the music. → <span class="v">✓</span> What I love is the music. <small>(без зайвого <b>it</b>)</small></p>
+<p><span class="x">✗</span> <b>That</b> I love is the music. → <span class="v">✓</span> <b>What</b> I love is…</p>
+<p><span class="x">✗</span> What I love is how <b>are people</b> friendly. → <span class="v">✓</span> how <b>people are</b> friendly <small>(прямий порядок слів!)</small></p>
+<p><span class="x">✗</span> What really let <b>down me</b>… → <span class="v">✓</span> What really <b>let me down</b>…</p>`
+];
+
+/* builder: target string, chunks in order, distractors */
+const BUILD=[
+{a:"The pain put me off!",c:["What","put me off","was","the pain!"],x:["is","it"]},
+{a:"I need a long holiday.",c:["What","I need","is","a long holiday."],x:["was","That"]},
+{a:"I love how friendly people are.",c:["The thing","I love","is","how friendly","people are."],x:["are people","it"]},
+{a:"My mentor's expertise really helped me.",c:["What","really helped me","was","my mentor's expertise."],x:["is","it was"]},
+{a:"I'll never forget how welcoming they were.",c:["What","I'll never forget","is","how welcoming","they were."],x:["were they","That"]},
+{a:"The way they make it relevant to now is great.",c:["What's great","about it","is","the way they make it","relevant to now."],x:["was","it is"]},
+{a:"No one in this class takes it too seriously, which is great.",c:["What's great","about this class","is","the fact that","no one takes it","too seriously."],x:["it","what"]},
+{a:"Being stranded on the side of the road scared me.",c:["What","scared me","was","being stranded","on the side of the road."],x:["is","it"]},
+{a:"I really hated being let down at the last minute.",c:["What","I really hated","was","being let down","at the last minute."],x:["let me down","is"]},
+{a:"I want an apprenticeship, not a degree.",c:["What","I want","is","an apprenticeship,","not a degree."],x:["was","That"]}
+];
+
+const JUDGE=[
+{o:["What I love is the music.","What I love it is the music.","That I love is the music."],e:"Після <b>What I love</b> одразу йде <b>is</b> — без зайвого <b>it</b>. І починаємо з <b>What</b>, не з That."},
+{o:["What surprised me was how welcoming they were.","What surprised me was how were they welcoming.","What it surprised me was how welcoming they were."],e:"Після <b>how</b> — прямий порядок: how welcoming <b>they were</b>."},
+{o:["The thing I hate is asking for the bill in a big group.","The thing what I hate is asking for the bill in a big group.","The thing I hate it is asking for the bill in a big group."],e:"<b>The thing (that) I hate is…</b> — без what і без it."},
+{o:["What's great about her is the fact that she shares her expertise.","What great about her is the fact that she shares her expertise.","What's great about her is the fact she shares her expertise is."],e:"<b>What's</b> = What <b>is</b>, не пропускай 's. Перед повним реченням — <b>the fact that</b>."},
+{o:["What I needed then was a mentor.","What I needed then, it was a mentor.","What I needed then were a mentor."],e:"Минуле → <b>was</b>; одна річ (a mentor) → was, і без коми та it."},
+{o:["What really let me down was the hotel.","What really let down me was the hotel.","What really let me down it was the hotel."],e:"Займенник стоїть усередині фразового дієслова: <b>let me down</b>."},
+{o:["What made me feel better was a long walk.","What made me to feel better was a long walk.","What made me feel better it was a long walk."],e:"<b>make sb do</b> — без to. І без зайвого it."},
+{o:["The other thing I love about my aunt is how she offers to babysit.","The other thing I love about my aunt is how does she offer to babysit.","The other thing what I love about my aunt is how she offers to babysit."],e:"Після <b>how</b> — звичайний порядок слів (how she offers), не питальний."}
+];
+
+const FINAL=[
+{q:"What helped me most when I was ____ my grandad was my best friend.",o:["mourning","stranded","welcoming","desperate"]},
+{q:"What I remember about that night ____ how he pulled over to help me.",o:["is","it is","are","what"]},
+{q:"The thing I love about this hostel is how ____ the staff are.",o:["welcoming","rough","down","desperate"]},
+{q:"What's great about an ____ is the fact that you earn money while you learn.",o:["apprenticeship","expertise","mentor","comfort"]},
+{q:"What really annoyed me was being ____ by the babysitter at the last minute.",o:["let down","pulled over","stranded","grabbed"]},
+{q:"What we did ____ grab a quick lunch at the station.",o:["was","were","it was","what"]},
+{q:"____ I needed was someone with real expertise.",o:["What","That","It","The what"]},
+{q:"What upset me most was seeing so many people sleeping ____ .",o:["rough","down","over","welcoming"]},
+{q:"What saved me when I was ____ on the motorway was a kind lorry driver.",o:["stranded","mourning","welcoming","babysitting"]},
+{q:"What's great about this café is ____ they never rush you to ask for the bill.",o:["the fact that","the fact","that fact that","what"]},
+{q:"The thing that made me feel ____ was losing my job.",o:["down","rough","over","rave"]},
+{q:"The thing I remember about that year is how ____ I was getting — no job for ages.",o:["desperate","welcoming","rave","rough"]}
+];
+
+const SPEAK=[
+{p:"A mentor or teacher who really helped you.",s:["What I learnt from them was…","The thing I admired most was…"],w:["mentor","expertise","act as"]},
+{p:"A time someone was a real comfort to you.",s:["What helped me most was…","What I'll never forget is…"],w:["comfort","feel down","mourning"]},
+{p:"A place where people were incredibly welcoming.",s:["What I loved about it was…","What's great about that place is the fact that…"],w:["welcoming","rave review"]},
+{p:"A time you were stranded or a trip went wrong.",s:["What happened was…","What scared me most was…"],w:["stranded","pull over","desperate"]},
+{p:"Someone who let you down.",s:["What annoyed me most was…","The thing I couldn't believe was…"],w:["let sb down","babysit"]},
+{p:"Something you would give a rave review.",s:["What's great about it is the fact that…","The other thing I love is…"],w:["rave review","welcoming"]},
+{p:"A small act of kindness you saw or did.",s:["What I did was…","What surprised me was…"],w:["grab some food","sleep rough","the bill"]},
+{p:"Apprenticeship or university — which is better?",s:["What I like about apprenticeships is…","The thing that worries me is…"],w:["apprenticeship","expertise","mentor"]},
+{p:"Your English lessons.",s:["What's great about this class is the fact that…","What I find hardest is…"],w:["expertise","comfort"]}
+];
+
+const TASKS=[
+{id:"cards",act:1,ic:"🎴",t:"Картки",s:"16 слів: переклад, приклад, 🔊",type:"cards"},
+{id:"gap",act:1,ic:"🎯",t:"Влучи в пропуск",s:"Обери правильне слово в новому контексті",type:"mcq",items:GAP},
+{id:"match",act:1,ic:"🔗",t:"Знайди пару",s:"Збери словосполучення",type:"match"},
+{id:"type",act:1,ic:"⌨️",t:"Згадай слово",s:"Визначення + речення → напиши сам",type:"type"},
+{id:"rules",act:2,ic:"💡",t:"Правило",s:"Cleft sentences простими словами",type:"rules"},
+{id:"build",act:2,ic:"🧱",t:"Збери cleft",s:"Переклади звичайне речення в cleft",type:"build"},
+{id:"judge",act:2,ic:"🕵️",t:"Знайди правильне",s:"Лише одне речення без помилки",type:"judge"},
+{id:"final",act:3,ic:"🔥",t:"Фінал на час",s:"Слова + cleft, 15 секунд на питання",type:"mcq",items:FINAL,timer:15},
+{id:"speak",act:3,ic:"🎤",t:"Твій вихід на сцену",s:"Говори cleft-реченнями з новими словами",type:"speak"}
+];
+const ACTS={1:"Дія I · Слова доброти",2:"Дія II · Cleft sentences",3:"Дія III · Прем'єра"};
+
+/* ================= STATE ================= */
+const KEY="spotlight-cleft-v1";
+let S={stars:{},pos:{},known:{}};
+try{const raw=localStorage.getItem(KEY);if(raw)S=Object.assign(S,JSON.parse(raw))}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+
+/* ================= HELPERS ================= */
+const $=s=>document.querySelector(s);
+const app=$("#app");
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const gapify=s=>s.replace("____",'<span class="gap">&nbsp;?&nbsp;</span>');
+const norm=s=>s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.!?,]/g,"").replace(/\s+/g," ").trim();
+let AC=null;
+function tone(f,d=.12,type="sine",v=.15,delay=0){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime+delay;o.type=type;o.frequency.value=f;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+d)}catch(e){}}
+const sndOk=()=>{tone(660,.12,"triangle");tone(990,.18,"triangle",.12,.09)};
+const sndNo=()=>{tone(220,.22,"sawtooth",.07)};
+const sndWin=()=>{[523,659,784,1047].forEach((f,i)=>tone(f,.25,"triangle",.13,i*.11))};
+function speak(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/\(.*?\)|\bsb\b/g,"").replace("____","blank"));u.lang="en-GB";u.rate=.92;speechSynthesis.speak(u)}catch(e){}}
+function starsFor(r){return r>=.9?3:r>=.7?2:1}
+function setStars(id,n){S.stars[id]=Math.max(S.stars[id]||0,n);save()}
+function starStr(n){return "★".repeat(n)+"☆".repeat(3-n)}
+
+/* confetti */
+const cv=$("#cf"),cx=cv.getContext("2d");let parts=[];
+function confetti(){cv.width=innerWidth;cv.height=innerHeight;const cols=["#ffc861","#ff7a59","#52d6a6","#ffe3a3","#b9acd8"];
+  for(let i=0;i<140;i++)parts.push({x:innerWidth/2,y:innerHeight/3,vx:(Math.random()-.5)*14,vy:Math.random()*-12-3,s:Math.random()*7+4,c:cols[i%5],r:Math.random()*6,l:120});
+  if(parts.length<=140)requestAnimationFrame(cfLoop)}
+function cfLoop(){cx.clearRect(0,0,cv.width,cv.height);parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.35;p.vx*=.99;p.r+=.2;p.l--;cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.fillStyle=p.c;cx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);cx.restore()});parts=parts.filter(p=>p.l>0&&p.y<cv.height+20);if(parts.length)requestAnimationFrame(cfLoop);else cx.clearRect(0,0,cv.width,cv.height)}
+
+/* ================= HOME ================= */
+let timerId=null;
+function stopTimer(){if(timerId){clearInterval(timerId);timerId=null}}
+function home(){
+  stopTimer();
+  const total=TASKS.reduce((a,t)=>a+(S.stars[t.id]||0),0),max=TASKS.length*3;
+  let h=`<div class="hero"><div class="beam"></div>
+  <h1>Spotlight</h1>
+  <p>Наведи прожектор на головне: слова доброти + cleft sentences</p>
+  <span class="tag">B2 · 16 слів · 9 сцен</span></div>
+  <div class="total"><div class="bar"><i style="width:${total/max*100}%"></i></div>
+  <p class="small" style="text-align:center;margin:6px 0 0">Зірки: ${total} / ${max} · прогрес зберігається автоматично</p></div>`;
+  let act=0;
+  TASKS.forEach((t,i)=>{
+    if(t.act!==act){if(act)h+=`</div>`;act=t.act;h+=`<div class="act-h">${ACTS[act]}</div><div class="grid">`}
+    const st=S.stars[t.id]||0;
+    h+=`<button class="tile ${st?'done':''}" data-go="${t.id}"><span class="num">${i+1}</span><div class="ic">${t.ic}</div><h3>${t.t}</h3><p>${t.s}</p><div class="st" style="color:${st?'var(--gold)':'var(--line)'}">${starStr(st)}</div></button>`;
+  });
+  h+=`</div><div class="row" style="justify-content:center;margin-top:26px"><button class="btn ghost" id="reset">↺ Почати все спочатку</button></div>`;
+  app.innerHTML=h;
+  app.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>open(b.dataset.go));
+  $("#reset").onclick=()=>{if(confirm("Стерти весь прогрес?")){S={stars:{},pos:{},known:{}};save();home()}};
+  scrollTo(0,0);
+}
+function topBar(t,extra=""){return `<div class="top"><button class="pill" id="back">← Сцени</button><div class="grow"></div>${extra}</div>`}
+function bindBack(){$("#back").onclick=home}
+function open(id){
+  const t=TASKS.find(x=>x.id===id);
+  ({cards:runCards,mcq:runMcq,match:runMatch,type:runType,rules:runRules,build:runBuild,judge:runJudge,speak:runSpeak})[t.type](t);
+  scrollTo(0,0);
+}
+
+/* ================= GENERIC LINEAR RUNNER ================= */
+/* pos = {order:[], i, ok, wrong:[], phase:'main'|'repeat', rq:[]} */
+function linear(t,n,renderItem){
+  let P=S.pos[t.id];
+  if(!P||P.n!==n){P={n,order:shuffle([...Array(n).keys()]),i:0,ok:0,wrong:[],phase:"main",rq:[],streak:0};S.pos[t.id]=P;save()}
+  function next(){
+    stopTimer();
+    const list=P.phase==="main"?P.order:P.rq;
+    if(P.i>=list.length){
+      if(P.phase==="main"&&P.wrong.length){P.phase="repeat";P.rq=shuffle(P.wrong);P.i=0;save();return intermission()}
+      return finish();
+    }
+    const idx=list[P.i];
+    const head=P.phase==="repeat"?`🔁 Повтор помилок ${P.i+1}/${list.length}`:`${P.i+1} / ${list.length}`;
+    renderItem(idx,head,(P.i)/list.length,(correct)=>{
+      if(P.phase==="main"){if(correct){P.ok++;P.streak++}else{P.wrong.push(idx);P.streak=0}}
+      else if(!correct){P.rq.push(idx)}
+      P.i++;save();
+    },next,P);
+  }
+  function intermission(){
+    app.innerHTML=topBar()+`<div class="card res"><h2>Майже! 🎭</h2><p>Правильно: <b>${P.ok}</b> з ${n}.</p><p class="small">Зараз ще раз пройдемо ті, де була помилка — поки не вийдуть усі.</p><div class="row" style="justify-content:center"><button class="btn" id="go">Повторити помилки →</button></div></div>`;
+    bindBack();$("#go").onclick=next;
+  }
+  function finish(){
+    const st=starsFor(P.ok/n);setStars(t.id,st);
+    const missed=[...new Set(P.wrong)];
+    delete S.pos[t.id];save();sndWin();confetti();
+    app.innerHTML=topBar()+`<div class="card res"><h2>${st===3?"Браво! Овації! 👏":st===2?"Чудовий виступ!":"Добрий початок!"}</h2>
+    <div class="big" style="color:var(--gold)">${starStr(st)}</div>
+    <p>З першої спроби: <b>${P.ok}</b> з ${n}</p>
+    ${missed.length&&t.missText?`<div class="miss"><p class="small">Варто ще раз глянути:</p>${missed.map(i=>`<div>${t.missText(i)}</div>`).join("")}</div>`:""}
+    <div class="row" style="justify-content:center"><button class="btn ghost" id="again">Ще раз</button><button class="btn" id="hm">До сцен →</button></div></div>`;
+    bindBack();$("#hm").onclick=home;$("#again").onclick=()=>open(t.id);
+  }
+  next();
+}
+
+/* ================= MCQ ================= */
+function runMcq(t){
+  const items=t.items;
+  t.missText=i=>items[i].q.replace("____",`<b style="color:var(--gold)">${items[i].o[0]}</b>`);
+  linear(t,items.length,(idx,head,pr,mark,next,P)=>{
+    const it=items[idx];const opts=shuffle(it.o);
+    const tm=t.timer&&P.phase==="main";
+    app.innerHTML=topBar(t,`<span class="pill">${t.ic} ${head}</span>`)+`<div class="card">
+      <div class="qhead"><h2>${t.t}</h2>${tm?`<span class="timer" id="tm">${t.timer}</span>`:(P.streak>1?`<span class="streak">🔥 ${P.streak}</span>`:"")}</div>
+      ${tm?`<div class="tline"><i id="tl"></i></div>`:`<div class="prog"><i style="width:${pr*100}%"></i></div>`}
+      <div class="q">${gapify(it.q)} <button class="say" id="sp">🔊</button></div>
+      <div class="opts">${opts.map(o=>`<button class="opt">${o}</button>`).join("")}</div>
+      <div class="fb" id="fb"></div>
+      <div class="row" hidden id="nx"><div class="grow"></div><button class="btn" id="nb">Далі →</button></div></div>`;
+    bindBack();
+    $("#sp").onclick=()=>speak(it.q);
+    let done=false;
+    const answer=(btn)=>{
+      if(done)return;done=true;stopTimer();
+      const ok=btn&&btn.textContent===it.o[0];
+      app.querySelectorAll(".opt").forEach(b=>{b.disabled=true;if(b.textContent===it.o[0])b.classList.add("ok")});
+      if(btn&&!ok)btn.classList.add("no");
+      const full=it.q.replace("____",it.o[0]);
+      const fb=$("#fb");fb.className="fb show "+(ok?"ok":"no");
+      fb.innerHTML=(ok?"✅ Так! ":btn?"❌ Не зовсім. ":"⏰ Час вийшов! ")+`<br><i>${full}</i>`;
+      ok?sndOk():sndNo();
+      if(ok)speak(full);
+      mark(ok);$("#nx").hidden=false;$("#nb").focus();
+    };
+    app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(b));
+    $("#nb").onclick=next;
+    if(tm){let left=t.timer;const tl=$("#tl");tl.style.transition=`width ${t.timer}s linear`;requestAnimationFrame(()=>requestAnimationFrame(()=>tl.style.width="0%"));
+      timerId=setInterval(()=>{left--;const e=$("#tm");if(e)e.textContent=left;if(left<=3&&left>0)tone(880,.05,"square",.05);if(left<=0)answer(null)},1000)}
+  });
+}
+
+/* ================= JUDGE (choose the correct sentence) ================= */
+function runJudge(t){
+  t.missText=i=>`✓ ${JUDGE[i].o[0]}`;
+  linear(t,JUDGE.length,(idx,head,pr,mark,next)=>{
+    const it=JUDGE[idx];const opts=shuffle(it.o);
+    app.innerHTML=topBar(t,`<span class="pill">${t.ic} ${head}</span>`)+`<div class="card">
+      <div class="qhead"><h2>${t.t}</h2></div><div class="prog"><i style="width:${pr*100}%"></i></div>
+      <p class="instr">Два речення мають помилку. Тапни те, що звучить правильно:</p>
+      <div class="opts">${opts.map(o=>`<button class="opt">${o}</button>`).join("")}</div>
+      <div class="fb" id="fb"></div>
+      <div class="row" hidden id="nx"><div class="grow"></div><button class="btn" id="nb">Далі →</button></div></div>`;
+    bindBack();
+    let done=false;
+    app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+      if(done)return;done=true;const ok=b.textContent===it.o[0];
+      app.querySelectorAll(".opt").forEach(x=>{x.disabled=true;if(x.textContent===it.o[0])x.classList.add("ok")});
+      if(!ok)b.classList.add("no");
+      $("#fb").className="fb show "+(ok?"ok":"no");$("#fb").innerHTML=(ok?"✅ Точно! ":"❌ Ой. ")+it.e;
+      ok?(sndOk(),speak(it.o[0])):sndNo();mark(ok);$("#nx").hidden=false;
+    });
+    $("#nb").onclick=next;
+  });
+}
+
+/* ================= TYPE ================= */
+function runType(t){
+  t.missText=i=>TYPE[i].q.replace("____",`<b style="color:var(--gold)">${TYPE[i].a[0]}</b>`);
+  linear(t,TYPE.length,(idx,head,pr,mark,next)=>{
+    const it=TYPE[idx];const ans=it.a[0];let shown=1;
+    const mask=()=>ans.slice(0,shown)+" "+"_ ".repeat(Math.max(0,ans.length-shown)).trim();
+    app.innerHTML=topBar(t,`<span class="pill">${t.ic} ${head}</span>`)+`<div class="card">
+      <div class="qhead"><h2>${t.t}</h2></div><div class="prog"><i style="width:${pr*100}%"></i></div>
+      <div class="def">📘 ${it.d}</div>
+      <div class="q">${gapify(it.q)}</div>
+      <p class="instr">Підказка: <b id="mk" style="letter-spacing:2px;color:var(--gold2)">${mask()}</b> (${ans.length} букв)</p>
+      <input class="typ" id="in" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Напиши слово…">
+      <div class="fb" id="fb"></div>
+      <div class="row" id="ctl"><button class="btn ghost" id="hint">💡 Ще буква</button><button class="btn ghost" id="idk">Не знаю</button><div class="grow"></div><button class="btn" id="chk">Перевірити</button></div>
+      <div class="row" hidden id="nx"><div class="grow"></div><button class="btn" id="nb">Далі →</button></div></div>`;
+    bindBack();
+    const inp=$("#in");setTimeout(()=>inp.focus(),50);
+    let done=false;
+    const end=(ok,msg)=>{done=true;inp.disabled=true;$("#ctl").hidden=true;$("#nx").hidden=false;
+      const full=it.q.replace("____",ans);
+      $("#fb").className="fb show "+(ok?"ok":"no");$("#fb").innerHTML=msg+`<br><i>${full}</i>`;
+      ok?sndOk():sndNo();speak(full);mark(ok);$("#nb").focus()};
+    let tries=0;
+    const check=()=>{if(done)return;const v=norm(inp.value);if(!v)return;
+      if(it.a.some(a=>norm(a)===v))end(true,"✅ Чудово!");
+      else{tries++;sndNo();inp.classList.remove("shk");inp.style.borderColor="var(--red)";
+        if(tries>=2)end(false,`❌ Правильно: <b>${ans}</b>`);
+        else{$("#fb").className="fb show no";$("#fb").innerHTML="Ще одна спроба 🙂 Перевір написання.";}}};
+    $("#chk").onclick=check;inp.onkeydown=e=>{if(e.key==="Enter"){done?next():check()}};
+    $("#hint").onclick=()=>{if(shown<ans.length-1){shown++;$("#mk").textContent=mask()}};
+    $("#idk").onclick=()=>end(false,`Слово: <b>${ans}</b>`);
+    $("#nb").onclick=next;
+  });
+}
+
+/* ================= BUILD ================= */
+function runBuild(t){
+  t.missText=i=>`${BUILD[i].a}<br>→ <b style="color:var(--gold)">${BUILD[i].c.join(" ")}</b>`;
+  linear(t,BUILD.length,(idx,head,pr,mark,next)=>{
+    const it=BUILD[idx];const target=it.c.join(" ");
+    let pool=shuffle([...it.c,...it.x].map((w,k)=>({w,k})));let ans=[];
+    app.innerHTML=topBar(t,`<span class="pill">${t.ic} ${head}</span>`)+`<div class="card">
+      <div class="qhead"><h2>${t.t}</h2></div><div class="prog"><i style="width:${pr*100}%"></i></div>
+      <p class="instr">Скажи те саме, але з прожектором на головному (cleft). Є 2 зайві шматки!</p>
+      <div class="q"><span class="a">A:</span>${it.a}</div>
+      <p class="instr">B:</p>
+      <div class="ans" id="ans"></div>
+      <div class="pool" id="pool"></div>
+      <div class="fb" id="fb"></div>
+      <div class="row" id="ctl"><button class="btn ghost" id="clr">Очистити</button><div class="grow"></div><button class="btn" id="chk">Перевірити</button></div>
+      <div class="row" hidden id="nx"><div class="grow"></div><button class="btn" id="nb">Далі →</button></div></div>`;
+    bindBack();
+    let done=false,tries=0;
+    const draw=()=>{
+      $("#ans").innerHTML=ans.length?ans.map((c,i)=>`<button class="chip" data-a="${i}">${c.w}</button>`).join(""):`<span class="small">Тапай шматки знизу…</span>`;
+      $("#pool").innerHTML=pool.map((c,i)=>`<button class="chip" data-p="${i}">${c.w}</button>`).join("");
+      app.querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>{if(done)return;pool.push(ans.splice(+b.dataset.a,1)[0]);tone(400,.05);draw()});
+      app.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{if(done)return;ans.push(pool.splice(+b.dataset.p,1)[0]);tone(520,.05);draw()});
+    };draw();
+    $("#clr").onclick=()=>{if(done)return;pool=pool.concat(ans);ans=[];draw()};
+    $("#chk").onclick=()=>{
+      if(done||!ans.length)return;
+      const got=ans.map(c=>c.w).join(" ");
+      if(norm(got)===norm(target)){done=true;sndOk();speak(target);$("#fb").className="fb show ok";$("#fb").innerHTML=`✅ Ідеально!<br><i>${target}</i>`;mark(true);$("#ctl").hidden=true;$("#nx").hidden=false}
+      else{tries++;sndNo();
+        if(tries>=2){done=true;$("#fb").className="fb show no";$("#fb").innerHTML=`❌ Правильний варіант:<br><b>${target}</b>`;speak(target);mark(false);$("#ctl").hidden=true;$("#nx").hidden=false}
+        else{$("#fb").className="fb show no";$("#fb").innerHTML="Майже… Перевір: <b>is</b> чи <b>was</b>? Немає зайвого <b>it</b>? Порядок слів після how?"}}
+    };
+    $("#nb").onclick=next;
+  });
+}
+
+/* ================= CARDS ================= */
+function runCards(t){
+  let deck=shuffle(WORDS.map((w,i)=>i).filter(i=>!S.known[i]));
+  if(!deck.length){S.known={};save();deck=shuffle(WORDS.map((w,i)=>i))}
+  let k=0;
+  const show=()=>{
+    if(k>=deck.length){
+      const left=WORDS.filter((w,i)=>!S.known[i]).length;
+      if(left){deck=shuffle(WORDS.map((w,i)=>i).filter(i=>!S.known[i]));k=0}
+      else{setStars(t.id,3);sndWin();confetti();
+        app.innerHTML=topBar()+`<div class="card res"><h2>Усі 16 слів знайомі! 🌟</h2><div class="big" style="color:var(--gold)">★★★</div><p>Тепер перевір себе в наступних сценах.</p><div class="row" style="justify-content:center"><button class="btn ghost" id="again">Переглянути ще раз</button><button class="btn" id="hm">До сцен →</button></div></div>`;
+        bindBack();$("#hm").onclick=home;$("#again").onclick=()=>{S.known={};save();runCards(t)};return}
+    }
+    const w=WORDS[deck[k]];const known=WORDS.filter((x,i)=>S.known[i]).length;
+    app.innerHTML=topBar(t,`<span class="pill">✅ ${known} / ${WORDS.length}</span>`)+`<div class="card">
+      <div class="qhead"><h2>${t.t}</h2><span class="small">Тапни картку, щоб перевернути</span></div>
+      <div class="prog"><i style="width:${known/WORDS.length*100}%"></i></div>
+      <div class="flip" id="fl"><div class="in">
+        <div class="face front"><div class="w">${w.en}</div><p class="small" style="margin-top:14px">${w.def}</p></div>
+        <div class="face back"><div class="t">${w.ua}</div><div class="e">“${w.ex}”</div></div>
+      </div></div>
+      <div class="row"><button class="say" id="sp" style="width:48px;height:48px">🔊</button><div class="grow"></div><button class="btn ghost" id="no">🔁 Ще повторю</button><button class="btn" id="yes">✅ Знаю</button></div></div>`;
+    bindBack();
+    $("#fl").onclick=()=>{$("#fl").classList.toggle("on");tone(500,.06)};
+    $("#sp").onclick=e=>{e.stopPropagation();speak($("#fl").classList.contains("on")?w.ex:w.en)};
+    $("#yes").onclick=()=>{S.known[deck[k]]=1;save();sndOk();k++;show()};
+    $("#no").onclick=()=>{deck.push(deck[k]);k++;show()};
+    speak(w.en);
+  };show();
+}
+
+/* ================= MATCH ================= */
+function runMatch(t){
+  let round=0,mist=0;
+  const play=()=>{
+    if(round>=MATCH.length){const st=mist<=1?3:mist<=4?2:1;setStars(t.id,st);sndWin();confetti();
+      app.innerHTML=topBar()+`<div class="card res"><h2>Усі пари знайдено!</h2><div class="big" style="color:var(--gold)">${starStr(st)}</div><p>Помилок: ${mist}</p><div class="row" style="justify-content:center"><button class="btn ghost" id="again">Ще раз</button><button class="btn" id="hm">До сцен →</button></div></div>`;
+      bindBack();$("#hm").onclick=home;$("#again").onclick=()=>runMatch(t);return}
+    const pairs=MATCH[round];const L=shuffle(pairs.map((p,i)=>({t:p[0],i}))),R=shuffle(pairs.map((p,i)=>({t:p[1],i})));
+    app.innerHTML=topBar(t,`<span class="pill">${t.ic} Раунд ${round+1}/${MATCH.length}</span>`)+`<div class="card">
+      <div class="qhead"><h2>${t.t}</h2><span class="small">Помилок: <b id="ms">${mist}</b></span></div>
+      <p class="instr">Тапни початок зліва, потім кінець справа.</p>
+      <div class="mgrid"><div class="mcol">${L.map(x=>`<button class="m" data-l="${x.i}">${x.t}</button>`).join("")}</div>
+      <div class="mcol">${R.map(x=>`<button class="m" data-r="${x.i}">${x.t}</button>`).join("")}</div></div></div>`;
+    bindBack();
+    let sel=null,left=pairs.length;
+    app.querySelectorAll("[data-l]").forEach(b=>b.onclick=()=>{app.querySelectorAll("[data-l]").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");sel=b;tone(500,.05)});
+    app.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{
+      if(!sel){b.classList.add("no");setTimeout(()=>b.classList.remove("no"),400);return}
+      if(sel.dataset.l===b.dataset.r){sel.classList.remove("sel");sel.classList.add("ok");b.classList.add("ok");sndOk();
+        const p=pairs[+b.dataset.r];speak(p[0]+" "+p[1]);sel=null;left--;
+        if(!left){round++;setTimeout(play,900)}}
+      else{mist++;$("#ms").textContent=mist;sndNo();b.classList.add("no");sel.classList.add("no");const s=sel;setTimeout(()=>{b.classList.remove("no");s.classList.remove("no")},400)}
+    });
+  };play();
+}
+
+/* ================= RULES ================= */
+function runRules(t){
+  let k=0;
+  const show=()=>{
+    app.innerHTML=topBar(t,`<span class="pill">${t.ic} ${k+1} / ${RULES.length}</span>`)+`<div class="card slide">${RULES[k]}
+      <div class="dots">${RULES.map((r,i)=>`<i class="${i===k?'on':''}"></i>`).join("")}</div>
+      <div class="row"><button class="btn ghost" id="pv" ${k?"":"disabled"}>← Назад</button><div class="grow"></div><button class="btn" id="nx">${k<RULES.length-1?"Далі →":"Зрозуміло! ✓"}</button></div></div>`;
+    bindBack();
+    $("#pv").onclick=()=>{if(k){k--;show()}};
+    $("#nx").onclick=()=>{if(k<RULES.length-1){k++;tone(600,.06);show()}else{setStars(t.id,3);sndWin();open("build")}};
+  };show();
+}
+
+/* ================= SPEAK ================= */
+function runSpeak(t){
+  let order=shuffle([...SPEAK.keys()]),k=0,score=[];
+  const show=()=>{
+    stopTimer();
+    if(k>=order.length||k>=6){const avg=score.length?score.reduce((a,b)=>a+b,0)/score.length:1;const st=Math.max(1,Math.round(avg));setStars(t.id,st);sndWin();confetti();
+      app.innerHTML=topBar()+`<div class="card res"><h2>Завіса! Ти зірка сцени 🎭</h2><div class="big" style="color:var(--gold)">${starStr(st)}</div><p>Виступів: ${score.length}</p><div class="row" style="justify-content:center"><button class="btn ghost" id="again">Ще виступ</button><button class="btn" id="hm">До сцен →</button></div></div>`;
+      bindBack();$("#hm").onclick=home;$("#again").onclick=()=>runSpeak(t);return}
+    const it=SPEAK[order[k]];let rate=0,left=60,run=false;
+    app.innerHTML=topBar(t,`<span class="pill">${t.ic} ${k+1} / 6</span>`)+`<div class="card">
+      <div class="qhead"><h2>${t.t}</h2><span class="timer" id="tm">1:00</span></div>
+      <p class="instr">Говори 1 хвилину. Використай мінімум <b>2 cleft-речення</b> і слова з підказки.</p>
+      <div class="prompt">${it.p}</div>
+      ${it.s.map(s=>`<div class="starter">🎙️ ${s}</div>`).join("")}
+      <div class="words">${it.w.map(w=>`<span>${w}</span>`).join("")}</div>
+      <div class="row"><button class="btn ghost" id="go">▶ Старт таймера</button><button class="btn ghost" id="sk">🎲 Інша тема</button></div>
+      <p class="instr" style="text-align:center;margin-top:18px">Як вийшло?</p>
+      <div class="rate">${[1,2,3].map(n=>`<button data-r="${n}">⭐</button>`).join("")}</div>
+      <div class="row"><div class="grow"></div><button class="btn" id="nb" disabled>Наступна тема →</button></div></div>`;
+    bindBack();
+    $("#go").onclick=()=>{if(run)return;run=true;tone(700,.1);$("#go").disabled=true;
+      timerId=setInterval(()=>{left--;$("#tm").textContent=`0:${String(Math.max(0,left)).padStart(2,"0")}`;if(left<=0){stopTimer();sndWin();$("#tm").textContent="⏰"}},1000)};
+    $("#sk").onclick=()=>{order.push(order.splice(k,1)[0]);show()};
+    app.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{rate=+b.dataset.r;app.querySelectorAll("[data-r]").forEach(x=>x.classList.toggle("on",+x.dataset.r<=rate));$("#nb").disabled=false;tone(500+rate*120,.08)});
+    $("#nb").onclick=()=>{if(!rate)return;score.push(rate);k++;show()};
+  };show();
+}
+
+/* ================= DRAWER ================= */
+let tab="w";
+function drawer(){
+  const d=$("#drawer");
+  d.innerHTML=`<div class="top"><h2 class="grow">📖 Шпаргалка</h2><button class="pill" id="cl">✕</button></div>
+  <div class="tabs"><button data-t="w" class="${tab==='w'?'on':''}">Слова</button><button data-t="c" class="${tab==='c'?'on':''}">Cleft</button></div>
+  <div id="dc"></div>`;
+  const dc=$("#dc");
+  if(tab==="w"){
+    dc.innerHTML=`<input class="search" id="sr" placeholder="Пошук: англ. або укр.…"><div id="wl"></div>`;
+    const draw=q=>{$("#wl").innerHTML=WORDS.filter(w=>!q||(w.en+w.ua).toLowerCase().includes(q.toLowerCase())).map(w=>`<div class="wi"><b>${w.en}</b> <button class="say" data-s="${w.en}">🔊</button><div class="u">${w.ua}</div><div class="ex">${w.ex}</div></div>`).join("");
+      d.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>speak(b.dataset.s))};
+    draw("");$("#sr").oninput=e=>draw(e.target.value);
+  }else{
+    dc.innerHTML=CLEFT_TIPS.map(c=>`<div class="wi"><b>${c[0]}</b><div class="ex" style="font-style:normal;color:var(--text);margin-top:6px">${c[1]}</div></div>`).join("")+
+    `<div class="wi"><b>⚠️ Пастки</b><div class="ex" style="font-style:normal">✗ What I love <u>it</u> is… · ✗ <u>That</u> I love is… · ✗ how <u>are people</u> friendly · ✗ let <u>down me</u></div></div>`;
+  }
+  d.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{tab=b.dataset.t;drawer()});
+  $("#cl").onclick=closeDrawer;
+}
+function openDrawer(){drawer();$("#drawer").hidden=false;$("#ov").hidden=false}
+function closeDrawer(){$("#drawer").hidden=true;$("#ov").hidden=true}
+$("#fab").onclick=openDrawer;$("#ov").onclick=closeDrawer;
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDrawer()});
+
+home();
+</script>
+</body>
+</html>
